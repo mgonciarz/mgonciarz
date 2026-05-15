@@ -4,9 +4,9 @@ struct ContactView: View {
     var brandBlue: Color
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
-                Section(header: SectionHeader(title: "Zarząd i Doradcy", color: brandBlue)) {
+                Section(header: SectionHeader(title: "Zarząd", color: brandBlue)) {
                     ContactRow(
                         name: "Tomasz Wyroślak",
                         role: "Prezes Zarządu – Project Manager",
@@ -42,7 +42,9 @@ struct ContactView: View {
                             .foregroundColor(.secondary)
                     }
                     .padding(.vertical, 4)
+                }
 
+                Section(header: SectionHeader(title: "WWW", color: brandBlue)) {
                     Button(action: {
                         if let url = URL(string: "https://www.iexplain.pl") {
                             UIApplication.shared.open(url)

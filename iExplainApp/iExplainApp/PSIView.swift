@@ -2,7 +2,6 @@ import SwiftUI
 
 struct PSIView: View {
     var brandBlue: Color
-    @State private var showContact = false
 
     var body: some View {
         NavigationStack {
