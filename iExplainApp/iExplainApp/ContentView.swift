@@ -20,6 +20,11 @@ struct ContentView: View {
                     Label("Strefa PSI", systemImage: "percent")
                 }
 
+            CalculatorView(brandBlue: brandBlue)
+                .tabItem {
+                    Label("Kalkulator", systemImage: "function")
+                }
+
             ContactView(brandBlue: brandBlue)
                 .tabItem {
                     Label("Kontakt", systemImage: "phone.fill")

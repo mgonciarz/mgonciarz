@@ -1,71 +1,146 @@
 import SwiftUI
 
+struct Product: Identifiable {
+    let id = UUID()
+    let name: String
+    let shortDescription: String
+    let icon: String
+    let color: Color
+    let details: [String]
+}
+
 struct ServicesView: View {
     var brandBlue: Color
 
+    let bgkProducts: [Product]
+    let arpProducts: [Product]
+
+    init(brandBlue: Color) {
+        self.brandBlue = brandBlue
+        self.bgkProducts = [
+            Product(
+                name: "Gwarancja Biznesmax Plus",
+                shortDescription: "Bezpłatna gwarancja spłaty kredytu z dotacją dla MŚP innowacyjnych",
+                icon: "shield.checkered",
+                color: brandBlue,
+                details: [
+                    "Bezpłatna gwarancja spłaty kredytu do 80% kwoty kredytu",
+                    "Dotacja do kapitału kredytu lub odsetek",
+                    "Dla MŚP prowadzących działalność innowacyjną",
+                    "Maksymalna kwota gwarancji: 2,5 mln EUR",
+                    "Okres gwarancji: do 20 lat (inwestycyjne), do 3 lat (obrotowe)"
+                ]
+            ),
+            Product(
+                name: "Gwarancja Ekomax",
+                shortDescription: "Wsparcie MŚP na inwestycje w efektywność energetyczną",
+                icon: "leaf.circle",
+                color: .green,
+                details: [
+                    "Dla MŚP realizujących inwestycje w efektywność energetyczną",
+                    "Gwarancja do 80% kwoty kredytu",
+                    "Dotacja do kapitału kredytu: 20%",
+                    "Maksymalna kwota gwarancji: 1,5 mln EUR"
+                ]
+            ),
+            Product(
+                name: "Gwarancja InvestEU",
+                shortDescription: "Gwarancja dla projektów z udziałem środków UE",
+                icon: "eurosign.circle",
+                color: brandBlue,
+                details: [
+                    "Gwarancja dla projektów inwestycyjnych z udziałem środków UE",
+                    "Do 80% kwoty kredytu",
+                    "Dla MŚP i spółek o średniej kapitalizacji"
+                ]
+            ),
+            Product(
+                name: "Gwarancja Innowacja",
+                shortDescription: "Wsparcie firm wdrażających innowacje i projekty B+R",
+                icon: "lightbulb.circle",
+                color: brandBlue,
+                details: [
+                    "Wsparcie dla firm wdrażających innowacje",
+                    "Gwarancja do 80% kredytu",
+                    "Dla MŚP z projektem B+R"
+                ]
+            )
+        ]
+        self.arpProducts = [
+            Product(
+                name: "ARP Pożyczka Rozwojowa pod Dotacje",
+                shortDescription: "Finansowanie pomostowe przed wypłatą dotacji UE",
+                icon: "arrow.up.forward.circle",
+                color: .orange,
+                details: [
+                    "Finansowanie pomostowe przed wypłatą dotacji UE",
+                    "Od 0,5 do 20 mln PLN",
+                    "Oprocentowanie: WIBOR + marża"
+                ]
+            ),
+            Product(
+                name: "ARP Pożyczka Inwestycyjna z Gwarancją InvestEU",
+                shortDescription: "Długoterminowe finansowanie inwestycji z gwarancją europejską",
+                icon: "building.2",
+                color: .orange,
+                details: [
+                    "Długoterminowe finansowanie inwestycji",
+                    "Od 1 do 50 mln PLN",
+                    "Okres kredytowania do 10 lat"
+                ]
+            ),
+            Product(
+                name: "ARP Pożyczka Obrotowa",
+                shortDescription: "Finansowanie kapitału obrotowego dla firm",
+                icon: "arrow.clockwise.circle",
+                color: .orange,
+                details: [
+                    "Finansowanie kapitału obrotowego",
+                    "Od 0,5 do 5 mln PLN",
+                    "Okres do 3 lat"
+                ]
+            ),
+            Product(
+                name: "ARP Leasing",
+                shortDescription: "Leasing maszyn, urządzeń i pojazdów",
+                icon: "truck.box",
+                color: .orange,
+                details: [
+                    "Leasing maszyn, urządzeń, pojazdów",
+                    "Od 50 tys. do 5 mln PLN",
+                    "Okres 2–7 lat"
+                ]
+            )
+        ]
+    }
+
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 Section(header: SectionHeader(title: "Gwarancje i Dotacje BGK", color: brandBlue)) {
-                    ServiceRow(
-                        name: "Gwarancja Biznesmax Plus",
-                        description: "Bezpłatna gwarancja spłaty kredytu do 80% kapitału, z możliwością dotacji do kapitału lub odsetek. Przeznaczona dla MŚP.",
-                        icon: "shield.checkered",
-                        color: brandBlue
-                    )
-
-                    ServiceRow(
-                        name: "Gwarancja Ekomax",
-                        description: "Wsparcie dla MŚP na inwestycje podnoszące efektywność energetyczną z dotacją do kapitału (20%). Dla firm stawiających na zieloną energię.",
-                        icon: "leaf.circle",
-                        color: .green
-                    )
-
-                    ServiceRow(
-                        name: "Gwarancja InvestEU",
-                        description: "Gwarancje dla projektów inwestycyjnych finansowanych ze środków europejskich. Wsparcie dla większych inwestycji.",
-                        icon: "eurosign.circle",
-                        color: brandBlue
-                    )
+                    ForEach(bgkProducts) { product in
+                        NavigationLink(destination: ProductDetailView(product: product)) {
+                            ServiceRow(
+                                name: product.name,
+                                description: product.shortDescription,
+                                icon: product.icon,
+                                color: product.color
+                            )
+                        }
+                    }
                 }
 
                 Section(header: SectionHeader(title: "Finansowanie ARP", color: .orange)) {
-                    ServiceRow(
-                        name: "ARP Pożyczka Rozwojowa pod Dotacje",
-                        description: "Finansowanie pomostowe dla firm oczekujących na wypłatę dotacji unijnych. Szybkie i elastyczne wsparcie płynnościowe.",
-                        icon: "arrow.up.forward.circle",
-                        color: .orange
-                    )
-
-                    ServiceRow(
-                        name: "ARP Pożyczka Inwestycyjna z Gwarancją InvestEU",
-                        description: "Długoterminowe finansowanie projektów inwestycyjnych z gwarancją europejską. Atrakcyjne warunki dla dużych projektów.",
-                        icon: "building.2",
-                        color: .orange
-                    )
-
-                    ServiceRow(
-                        name: "ARP Pożyczka Obrotowa",
-                        description: "Finansowanie bieżącej działalności i kapitału obrotowego. Elastyczne warunki dopasowane do potrzeb firmy.",
-                        icon: "arrow.clockwise.circle",
-                        color: .orange
-                    )
-
-                    ServiceRow(
-                        name: "ARP Leasing",
-                        description: "Leasing maszyn, urządzeń i środków transportu. Korzystne warunki dla firm produkcyjnych i usługowych.",
-                        icon: "truck.box",
-                        color: .orange
-                    )
-                }
-
-                Section(header: SectionHeader(title: "Doradztwo PSI", color: .purple)) {
-                    ServiceRow(
-                        name: "Polska Strefa Inwestycji",
-                        description: "Kompleksowe doradztwo w uzyskaniu decyzji o wsparciu PSI. Zwolnienie CIT/PIT nawet do 15 lat.",
-                        icon: "percent",
-                        color: .purple
-                    )
+                    ForEach(arpProducts) { product in
+                        NavigationLink(destination: ProductDetailView(product: product)) {
+                            ServiceRow(
+                                name: product.name,
+                                description: product.shortDescription,
+                                icon: product.icon,
+                                color: product.color
+                            )
+                        }
+                    }
                 }
             }
             .listStyle(InsetGroupedListStyle())
@@ -109,6 +184,60 @@ struct ServiceRow: View {
             }
         }
         .padding(.vertical, 4)
+    }
+}
+
+struct ProductDetailView: View {
+    let product: Product
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                HStack(spacing: 16) {
+                    Image(systemName: product.icon)
+                        .font(.system(size: 48))
+                        .foregroundColor(product.color)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(product.name)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(product.color.opacity(0.1))
+                .cornerRadius(16)
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Szczegóły produktu")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        ForEach(product.details, id: \.self) { detail in
+                            HStack(alignment: .top, spacing: 10) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(product.color)
+                                    .font(.body)
+                                Text(detail)
+                                    .font(.body)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                        }
+                    }
+                }
+                .padding()
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(12)
+
+                Spacer()
+            }
+            .padding()
+        }
+        .navigationTitle(product.name)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
